@@ -1,0 +1,17 @@
+C:\Users\Hoang\Documents\Visual Studio 2017\Projects\Trial_1\Trial_1\bin\Debug\Trial_1.exe.config
+C:\Users\Hoang\Documents\Visual Studio 2017\Projects\Trial_1\Trial_1\bin\Debug\Trial_1.exe
+C:\Users\Hoang\Documents\Visual Studio 2017\Projects\Trial_1\Trial_1\bin\Debug\Trial_1.pdb
+C:\Users\Hoang\Documents\Visual Studio 2017\Projects\Trial_1\Trial_1\obj\Debug\Trial_1.csprojAssemblyReference.cache
+C:\Users\Hoang\Documents\Visual Studio 2017\Projects\Trial_1\Trial_1\obj\Debug\Trial_1.Form1.resources
+C:\Users\Hoang\Documents\Visual Studio 2017\Projects\Trial_1\Trial_1\obj\Debug\Trial_1.Properties.Resources.resources
+C:\Users\Hoang\Documents\Visual Studio 2017\Projects\Trial_1\Trial_1\obj\Debug\Trial_1.csproj.GenerateResource.cache
+C:\Users\Hoang\Documents\Visual Studio 2017\Projects\Trial_1\Trial_1\obj\Debug\Trial_1.csproj.CoreCompileInputs.cache
+C:\Users\Hoang\Documents\Visual Studio 2017\Projects\Trial_1\Trial_1\obj\Debug\Trial_1.exe
+C:\Users\Hoang\Documents\Visual Studio 2017\Projects\Trial_1\Trial_1\obj\Debug\Trial_1.pdb
+C:\Users\Hoang\Documents\Visual Studio 2017\Projects\Trial_1\Trial_1\bin\Debug\EPPlus.dll
+C:\Users\Hoang\Documents\Visual Studio 2017\Projects\Trial_1\Trial_1\bin\Debug\EPPlus.xml
+C:\Users\Hoang\Documents\Visual Studio 2017\Projects\Trial_1\Trial_1\obj\Debug\Trial_1.csproj.CopyComplete
+C:\Users\Hoang\Documents\Visual Studio 2017\Projects\Trial_1\Trial_1\bin\Debug\ExcelDataReader.DataSet.dll
+C:\Users\Hoang\Documents\Visual Studio 2017\Projects\Trial_1\Trial_1\bin\Debug\ExcelDataReader.dll
+C:\Users\Hoang\Documents\Visual Studio 2017\Projects\Trial_1\Trial_1\bin\Debug\ExcelDataReader.xml
+C:\Users\Hoang\Documents\Visual Studio 2017\Projects\Trial_1\Trial_1\bin\Debug\ExcelDataReader.DataSet.xml
