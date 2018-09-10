@@ -41,8 +41,8 @@ namespace Trial_1
                         string date = today.ToString("dd-MM-yyyy");
                         string[] dateSplit = date.Split('-');
                         string location = dateSplit[2] + @"\" + dateSplit[1] + @"\" + date;
-                        string newFolder = @"C:\Users\Hoang\Documents\Invoice\Clients\Northern Medical Group\" + location;
-                        string ExcelFolder = @"C:\Users\Hoang\Documents\Invoice\Excel Files";
+                        string newFolder = @"C:\Invoice\Clients\Northern Medical Group\" + location;
+                        string ExcelFolder = @"C:\Invoice\Excel Files";
                         //create a folder based on current year, month, and date
                         Directory.CreateDirectory(newFolder);
                         string comText = newFolder + @"\NMED01_" + dateSplit[2] + "_" + dateSplit[1] + "_" + date + ".txt";
