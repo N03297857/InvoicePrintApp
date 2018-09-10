@@ -48,21 +48,21 @@ namespace Trial_1
                         string comText = newFolder + @"\NMED01_" + dateSplit[2] + "_" + dateSplit[1] + "_" + date + ".txt";
                         string ExcFile = newFolder + @"\NMED01_" + dateSplit[2] + "_" + dateSplit[1] + "_" + date + ".xlsx";
                         string ExcFile2 = ExcelFolder + @"\NMED01_" + dateSplit[2] + "_" + dateSplit[1] + "_" + date + ".xlsx";
-                        if (!System.IO.File.Exists(comText))
+                        /*if (!System.IO.File.Exists(comText))
                         {
                             FileStream createtextFile = File.Create(comText);
-                        }
+                        }*/
                         File.WriteAllLines(comText, NMedList);
                         if (!System.IO.File.Exists(ExcFile))
                         {
                             ExcelPackage med = new ExcelPackage();
-                            med.Workbook.Worksheets.Add("Raw Data");//creat work sheet
+                            med.Workbook.Worksheets.Add("Northern Medical Group");//creat work sheet
                             var headerRow = new List<string[]>()//add header
                             {
                                 new string[] { "ACCOUNT","ID", "First Name", "MIDDLE NAME", "Last Name", "ADDRESSLINE1", "ADDRESSLINE2", "CITY", "STATE", "ZIPCODE" }
                             };
                             string headerRange = "A1:" + Char.ConvertFromUtf32(headerRow[0].Length + 64) + "1";
-                            var worksheet = med.Workbook.Worksheets["Raw Data"]; // load worksheet based on name
+                            var worksheet = med.Workbook.Worksheets["Northern Medical Group"]; // load worksheet based on name
                             worksheet.Cells[headerRange].LoadFromArrays(headerRow); //loead data to worksheet 
                             FileInfo excelFile = new FileInfo(ExcFile);
                             FileInfo excelFile2 = new FileInfo(ExcFile2);
@@ -72,7 +72,7 @@ namespace Trial_1
                         FileInfo loadfile = new FileInfo(ExcFile);// load excel file
                         FileInfo copyFile = new FileInfo(ExcFile2);
                         ExcelPackage med1 = new ExcelPackage(loadfile);
-                        var worksheet1 = med1.Workbook.Worksheets["Raw Data"];
+                        var worksheet1 = med1.Workbook.Worksheets["Northern Medical Group"];
                         for (int i = 1; i < lines.Length; i++)
                         {// read in each line
                             if (lines[i] == "ecwPtStatement") // indicator for client format  
@@ -100,7 +100,7 @@ namespace Trial_1
                 }//END loop throught each file 
             }
             //Display all excel files
-            string[] allFiles = Directory.GetFiles(@"C:\Users\Hoang\Documents\Invoice\Excel Files");
+            string[] allFiles = Directory.GetFiles(@"C:\\Invoice\Excel Files");
             foreach (string ef in allFiles)
             {
                 FileStream fs = File.Open(ef, FileMode.Open, FileAccess.Read);
@@ -119,6 +119,7 @@ namespace Trial_1
                 edr.Close();
             }
         }
+
         private void Opts_SelectedIndexChanged(object sender, EventArgs e)
         {
             Display1.DataSource = result.Tables[Opts.SelectedIndex];
