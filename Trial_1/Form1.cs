@@ -21,10 +21,11 @@ namespace Trial_1
         DataSet result;
         private void RDBtn_MouseClick(object sender, MouseEventArgs e)
         {
+            List<string> NMedList;
             //Open dialog and choose raw files
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Multiselect = true;
-            dialog.Filter ="txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            dialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
             dialog.Title = "Select a text file";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
@@ -33,8 +34,9 @@ namespace Trial_1
                 foreach (string fname in dialog.FileNames)// loop through each selected file 
                 {
                     string[] lines = System.IO.File.ReadAllLines(fname);
-                    if(lines[0] == "ecwPtStatement,1.0")// this is kind a switch statement to determine the format for each clients
+                    if (lines[0] == "ecwPtStatement,1.0")// this is kind a switch statement to determine the format for each clients
                     {
+                        NMedList = System.IO.File.ReadAllLines(fname).ToList();
                         DateTime today = DateTime.Today;
                         string date = today.ToString("dd-MM-yyyy");
                         string[] dateSplit = date.Split('-');
@@ -43,8 +45,14 @@ namespace Trial_1
                         string ExcelFolder = @"C:\Users\Hoang\Documents\Invoice\Excel Files";
                         //create a folder based on current year, month, and date
                         Directory.CreateDirectory(newFolder);
+                        string comText = newFolder + @"\NMED01_" + dateSplit[2] + "_" + dateSplit[1] + "_" + date + ".txt";
                         string ExcFile = newFolder + @"\NMED01_" + dateSplit[2] + "_" + dateSplit[1] + "_" + date + ".xlsx";
                         string ExcFile2 = ExcelFolder + @"\NMED01_" + dateSplit[2] + "_" + dateSplit[1] + "_" + date + ".xlsx";
+                        if (!System.IO.File.Exists(comText))
+                        {
+                            FileStream createtextFile = File.Create(comText);
+                        }
+                        File.WriteAllLines(comText, NMedList);
                         if (!System.IO.File.Exists(ExcFile))
                         {
                             ExcelPackage med = new ExcelPackage();
@@ -62,7 +70,7 @@ namespace Trial_1
                             med.SaveAs(excelFile2);
                         }
                         FileInfo loadfile = new FileInfo(ExcFile);// load excel file
-                        FileInfo copyFile = new FileInfo(ExcFile2); 
+                        FileInfo copyFile = new FileInfo(ExcFile2);
                         ExcelPackage med1 = new ExcelPackage(loadfile);
                         var worksheet1 = med1.Workbook.Worksheets["Raw Data"];
                         for (int i = 1; i < lines.Length; i++)
@@ -92,7 +100,7 @@ namespace Trial_1
                 }//END loop throught each file 
             }
             //Display all excel files
-            string [] allFiles = Directory.GetFiles(@"C:\Users\Hoang\Documents\Invoice\Excel Files");
+            string[] allFiles = Directory.GetFiles(@"C:\Users\Hoang\Documents\Invoice\Excel Files");
             foreach (string ef in allFiles)
             {
                 FileStream fs = File.Open(ef, FileMode.Open, FileAccess.Read);
@@ -104,7 +112,7 @@ namespace Trial_1
                         UseHeaderRow = true
                     }
                 });
-                foreach(DataTable dt in result.Tables)
+                foreach (DataTable dt in result.Tables)
                 {
                     Opts.Items.Add(dt.TableName);
                 }
