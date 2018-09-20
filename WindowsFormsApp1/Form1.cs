@@ -83,10 +83,10 @@ namespace WindowsFormsApp1
                                         }
                                         curr++;
                                     }
-                                        newPatient = new NMGPatient(infoPatient[4]);
-                                        string guid1 = System.Guid.NewGuid().ToString().Replace("-", "").ToUpper();
-                                        char charToTrim1 = '"';
-                                        var data1 = new List<string[]>()
+                                    newPatient = new NMGPatient(infoPatient[4]);
+                                    string guid1 = System.Guid.NewGuid().ToString().Replace("-", "").ToUpper();
+                                    char charToTrim1 = '"';
+                                    var data1 = new List<string[]>()
                                     {
                                             new string[]{infoPatientList[4], guid1, infoPatientList[0], infoPatientList[1], infoPatientList[2], infoPatientList[3], infoPatientList[5],
                                             infoPatientList[6], infoPatientList[7], infoPatientList[8], infoPatientList[9], infoPatientList[10], infoPatientList[11], infoPatientList[12],
@@ -94,71 +94,71 @@ namespace WindowsFormsApp1
                                             infoPatientList[20], infoPatientList[21], infoPatientList[22], infoPatientList[23], infoPatientList[24], infoPatientList[25], infoPatientList[26],
                                             infoPatientList[27], infoPatientList[28]}
                                     };
-                                        newPatient.PatientFirstName = infoPatientList[0].Trim(charToTrim1);
-                                        newPatient.PatientMiddleName = infoPatientList[1].Trim(charToTrim1);
-                                        newPatient.PatientLastName = infoPatientList[2].Trim(charToTrim1);
-                                        newPatient.PaymentDue = infoPatientList[5].Trim(charToTrim1);
-                                        int AcNo;
-                                        if (Int32.TryParse(infoPatientList[4].Trim(charToTrim1), out AcNo))
-                                        {
-                                            newPatient.AccountNo = AcNo;
-                                        }
-                                        DateTime billDate;
-                                        if (DateTime.TryParse(infoPatientList[3].Trim(charToTrim1), out billDate))
-                                        {
-                                            newPatient.BillDate = billDate;
-                                        }
-                                        newPatient.MailFirstName = infoPatientList[6].Trim(charToTrim1);
-                                        newPatient.MailMiddleName = infoPatientList[7].Trim(charToTrim1);
-                                        newPatient.MailLastName = infoPatientList[8].Trim(charToTrim1);
-                                        newPatient.MailAddressLine1 = infoPatientList[9].Trim(charToTrim1);
-                                        newPatient.MailAddressLine2 = infoPatientList[10].Trim(charToTrim1);
-                                        newPatient.MailCity = infoPatientList[11].Trim(charToTrim1);
-                                        newPatient.MailState = infoPatientList[12].Trim(charToTrim1);
-                                        newPatient.MailZip = infoPatientList[13].Trim(charToTrim1);
-                                        newPatient.RenderedName = infoPatientList[14].Trim(charToTrim1);
-                                        newPatient.RenderedAddressLine1 = infoPatientList[15].Trim(charToTrim1);
-                                        newPatient.RenderedAddressLine2 = infoPatientList[16].Trim(charToTrim1);
-                                        newPatient.RenderedCity = infoPatientList[17].Trim(charToTrim1);
-                                        newPatient.RenderedState = infoPatientList[18].Trim(charToTrim1);
-                                        newPatient.RenderedZip = infoPatientList[19].Trim(charToTrim1);
-                                        newPatient.PayableTo = infoPatientList[20].Trim(charToTrim1);
-                                        newPatient.Unknowing1 = infoPatientList[21].Trim(charToTrim1);
-                                        newPatient.Unknowing2 = infoPatientList[22].Trim(charToTrim1);
-                                        newPatient.AgingCurrent = infoPatientList[23].Trim(charToTrim1);
-                                        newPatient.Aging31_60 = infoPatientList[24].Trim(charToTrim1);
-                                        newPatient.Aging61_90 = infoPatientList[25].Trim(charToTrim1);
-                                        newPatient.Aging91_120 = infoPatientList[26].Trim(charToTrim1);
-                                        newPatient.Aging120 = infoPatientList[27].Trim(charToTrim1);
-                                        newPatient.InquireyPhone = infoPatientList[28].Trim(charToTrim1);
-                                        patientList.Add(newPatient);
-                                    }
-                                    var h = j + 1;
-                                    if (lines.Length > h)
+                                    newPatient.PatientFirstName = infoPatientList[0].Trim(charToTrim1);
+                                    newPatient.PatientMiddleName = infoPatientList[1].Trim(charToTrim1);
+                                    newPatient.PatientLastName = infoPatientList[2].Trim(charToTrim1);
+                                    newPatient.PaymentDue = infoPatientList[5].Trim(charToTrim1);
+                                    int AcNo;
+                                    if (Int32.TryParse(infoPatientList[4].Trim(charToTrim1), out AcNo))
                                     {
-                                        while (lines[h] != "ecwPtStatement") //Iterates through each line for statement until it reaches next patient
+                                        newPatient.AccountNo = AcNo;
+                                    }
+                                    DateTime billDate;
+                                    if (DateTime.TryParse(infoPatientList[3].Trim(charToTrim1), out billDate))
+                                    {
+                                        newPatient.BillDate = billDate;
+                                    }
+                                    newPatient.MailFirstName = infoPatientList[6].Trim(charToTrim1);
+                                    newPatient.MailMiddleName = infoPatientList[7].Trim(charToTrim1);
+                                    newPatient.MailLastName = infoPatientList[8].Trim(charToTrim1);
+                                    newPatient.MailAddressLine1 = infoPatientList[9].Trim(charToTrim1);
+                                    newPatient.MailAddressLine2 = infoPatientList[10].Trim(charToTrim1);
+                                    newPatient.MailCity = infoPatientList[11].Trim(charToTrim1);
+                                    newPatient.MailState = infoPatientList[12].Trim(charToTrim1);
+                                    newPatient.MailZip = infoPatientList[13].Trim(charToTrim1);
+                                    newPatient.RenderedName = infoPatientList[14].Trim(charToTrim1);
+                                    newPatient.RenderedAddressLine1 = infoPatientList[15].Trim(charToTrim1);
+                                    newPatient.RenderedAddressLine2 = infoPatientList[16].Trim(charToTrim1);
+                                    newPatient.RenderedCity = infoPatientList[17].Trim(charToTrim1);
+                                    newPatient.RenderedState = infoPatientList[18].Trim(charToTrim1);
+                                    newPatient.RenderedZip = infoPatientList[19].Trim(charToTrim1);
+                                    newPatient.PayableTo = infoPatientList[20].Trim(charToTrim1);
+                                    newPatient.Unknowing1 = infoPatientList[21].Trim(charToTrim1);
+                                    newPatient.Unknowing2 = infoPatientList[22].Trim(charToTrim1);
+                                    newPatient.AgingCurrent = infoPatientList[23].Trim(charToTrim1);
+                                    newPatient.Aging31_60 = infoPatientList[24].Trim(charToTrim1);
+                                    newPatient.Aging61_90 = infoPatientList[25].Trim(charToTrim1);
+                                    newPatient.Aging91_120 = infoPatientList[26].Trim(charToTrim1);
+                                    newPatient.Aging120 = infoPatientList[27].Trim(charToTrim1);
+                                    newPatient.InquireyPhone = infoPatientList[28].Trim(charToTrim1);
+                                    patientList.Add(newPatient);
+                                }
+                                var h = j + 1;
+                                if (lines.Length > h)
+                                {
+                                    while (lines[h] != "ecwPtStatement") //Iterates through each line for statement until it reaches next patient
+                                    {
+                                        if (h < lines.Length)
                                         {
-                                            if (h < lines.Length) //Spliting Patient Statement and assigning it to newPatientStatement
-                                            {
-                                                string[] infoPatientStatement = lines[h].Split(',');
-                                                List<string> infoPatientStatementList = new List<string>(infoPatientStatement);
-                                                int curr1 = 0;
+                                            string[] infoPatientStatement = lines[h].Split(',');
+                                            List<string> infoPatientStatementList = new List<string>(infoPatientStatement);
+                                            int curr1 = 0;
                                             while (curr1 < infoPatientStatementList.Count)
                                             {
-                                                    int qCount1 = checkForOneQuote(infoPatientStatementList[curr1]);
-                                                    if (qCount1 < 2)
+                                                int qCount1 = checkForOneQuote(infoPatientStatementList[curr1]);
+                                                if (qCount1 < 2)
+                                                {
+                                                    int nextWord1 = curr1 + 1;
+                                                    while (qCount1 < 2)
                                                     {
-                                                        int nextWord1 = curr1 + 1;
-                                                        while (qCount1 < 2)
-                                                        {
-                                                            qCount1 = checkForOneQuote(infoPatientStatementList[nextWord1]);
-                                                            if (qCount1 >= 2) { break; }
-                                                            infoPatientStatementList[curr1] += infoPatientStatementList[nextWord1];
-                                                            infoPatientStatementList.RemoveAt(nextWord1);
-                                                        }
+                                                        qCount1 = checkForOneQuote(infoPatientStatementList[nextWord1]);
+                                                        if (qCount1 >= 2) { break; }
+                                                        infoPatientStatementList[curr1] += infoPatientStatementList[nextWord1];
+                                                        infoPatientStatementList.RemoveAt(nextWord1);
                                                     }
-                                                curr1++;
                                                 }
+                                                curr1++;
+                                            }
                                             string guid2 = System.Guid.NewGuid().ToString().Replace("-", "").ToUpper();
                                             char charToTrim2 = '"';
                                             var data2 = new List<string[]>()
@@ -174,11 +174,11 @@ namespace WindowsFormsApp1
                                             DateTime AcDate;
                                             if (DateTime.TryParse(infoPatientStatementList[2].Trim(charToTrim2), out ViDate))
                                             {
-                                                 newPatientStatement.VisitDate = ViDate;
+                                                newPatientStatement.VisitDate = ViDate;
                                             }
                                             if (DateTime.TryParse(infoPatientStatementList[3].Trim(charToTrim2), out AcDate))
                                             {
-                                                 newPatientStatement.ActivityDate = AcDate;
+                                                newPatientStatement.ActivityDate = AcDate;
                                             }
                                             newPatientStatement.SetDescription(infoPatientStatementList[4].Trim(charToTrim2));
                                             newPatientStatement.Charges = infoPatientStatementList[5].Trim(charToTrim2);
@@ -186,17 +186,19 @@ namespace WindowsFormsApp1
                                             newPatientStatement.Balance = infoPatientStatementList[7].Trim(charToTrim2);
                                             patientStatementList.Add(newPatientStatement);
                                             h++;
-                                                }
-                                            }
                                         }
-                                        newPatient.SetStatement(patientStatementList);
                                     }
+                                    newPatient.SetStatement(patientStatementList);
+                                }
+                                int patientStatementListSize = patientStatementList.Count;
+                                patientStatementList.RemoveRange(0, patientStatementListSize);
                             }
-                        createPDF.GeneratorPDF(patientList, fileName);
                         }
+                        createPDF.GeneratorPDF(patientList, fileName);
                     }
                 }
             }
+        }
         private int checkForOneQuote(string checkString)
         {
             int count = 0;
