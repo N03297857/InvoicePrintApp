@@ -423,8 +423,13 @@ namespace Trial_1
 
             PdfContentByte cb = wri.DirectContent;
 
-            cb.MoveTo(5, 701);
-            cb.LineTo(40, 701);
+            cb.MoveTo(0, 698);
+            cb.LineTo(16.3, 698);
+
+            cb.Stroke();
+
+            cb.MoveTo(0, 688);
+            cb.LineTo(16.3, 688);
 
             cb.Stroke();
 
