@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +20,7 @@ namespace Trial_1
         {
             InitializeComponent();
         }
-        protected List<DataSet> GenDS= new List<DataSet>(); // this variable holding the dataset for all excel files
+        protected List<DataSet> GenDS = new List<DataSet>(); // this variable holding the dataset for all excel files
         protected DataSet result = new DataSet(); // when you convert from excel file to dataset
 
         protected string addr1;
@@ -43,33 +42,37 @@ namespace Trial_1
 
         private void RDBtn_MouseClick(object sender, MouseEventArgs e)
         {
-            string[] getFolder = Directory.GetDirectories(@"C:\\Invoice\Raw Data");
+            string[] getFolder = Directory.GetDirectories(@"L:\\Invoice\Raw Data");
             foreach (string gF in getFolder)
             {
                 switch (Path.GetFileName(gF))
                 {
                     case "Northern Medical Group":
-                          string[] getAllRawData = Directory.GetFiles(@"C:\\Invoice\Raw Data\" + Path.GetFileName(gF));
-                          foreach(string gARD in getAllRawData)
-                          {
-                                NorthernMedicalGroupTXT(gARD);
-                          }
-                    break;
+                        string[] getAllRawData = Directory.GetFiles(@"L:\\Invoice\Raw Data\" + Path.GetFileName(gF));
+                        foreach (string gARD in getAllRawData)
+                        {
+                            NorthernMedicalGroupTXT(gARD);
+                        }
+                        break;
                 }
             }
             //Display all excel files
-            string[] allFiles = Directory.GetFiles(@"C:\\Invoice\Excel Files");
-            foreach (string ef in allFiles)
+            string[] getFolderExcels = Directory.GetDirectories(@"L:\\Invoice\Excel Files");
+            foreach (string gFE in getFolderExcels)
             {
-                FileStream fs = File.Open(ef, FileMode.Open, FileAccess.Read);
-                IExcelDataReader edr = ExcelReaderFactory.CreateOpenXmlReader(fs);
-                result = edr.AsDataSet();
-                foreach (DataTable dt in result.Tables)
+                string[] allFiles = Directory.GetFiles(@"L:\\Invoice\Excel Files\" + Path.GetFileName(gFE));
+                foreach (string ef in allFiles)
                 {
-                    Opts.Items.Add(dt.TableName);
+                    FileStream fs = File.Open(ef, FileMode.Open, FileAccess.Read);
+                    IExcelDataReader edr = ExcelReaderFactory.CreateOpenXmlReader(fs);
+                    result = edr.AsDataSet();
+                    foreach (DataTable dt in result.Tables)
+                    {
+                        Opts.Items.Add(dt.TableName);
+                    }
+                    edr.Close();
+                    GenDS.Add(result);
                 }
-                edr.Close();
-                GenDS.Add(result);
             }
             Opts.SelectedIndex = 0;
             Opts_SelectedIndexChanged(null, null);
@@ -83,16 +86,18 @@ namespace Trial_1
 
         private void ExcBtn_MouseClick(object sender, MouseEventArgs e)
         {
-            string[] cleanFiles = Directory.GetFiles(@"C:\\Invoice\Clean Data");
-            foreach (string cL in cleanFiles)
+            string[] getCleanFolder = Directory.GetDirectories(@"L:\\Invoice\Clean Data");
+            foreach (string gCF in getCleanFolder)
             {
-                string fileName = Path.GetFileName(cL);
-                string[] fileNameSplit = fileName.Split('_');
-                switch (fileNameSplit[0])
-                { 
-                    case "NMED01":
-                        NorthernMedicalGroupPDF(cL);
-                    break;
+                switch (Path.GetFileName(gCF))
+                {
+                    case "Northern Medical Group":
+                        string[] cleanFiles = Directory.GetFiles(@"L:\\Invoice\Clean Data\" + Path.GetFileName(gCF));
+                        foreach (string cL in cleanFiles)
+                        {
+                            NorthernMedicalGroupPDF(cL);
+                        }
+                        break;
                 }
             }
         }
@@ -105,16 +110,16 @@ namespace Trial_1
             string[] lines = System.IO.File.ReadAllLines(textFile);
             NMedList = System.IO.File.ReadAllLines(textFile).ToList();
             string location = dateSplit[2] + @"\" + dateSplit[1] + @"\" + date;
-            string newFolder = @"C:\Invoice\Clients\Northern Medical Group\" + location;
-            string ExcelFolder = @"C:\Invoice\Excel Files";
+            string newFolder = @"L:\Invoice\Clients\Northern Medical Group\" + location;
+            string ExcelFolder = @"L:\Invoice\Excel Files\Northern Medical Group";
             //create a folder based on current year, month, and date
             Directory.CreateDirectory(newFolder);
-            //create a text file which have all the patients 
-            string comText = newFolder + @"\NMED01_" + dateSplit[2] + "_" + dateSplit[1] + "_" + date + ".txt";
+            // create a text file which have all the patients 
+            string comText = newFolder + @"\NMG_" + date + ".txt";
             //create the excel file of all the patients without the code 
-            string ExcFile = newFolder + @"\NMED01_" + dateSplit[2] + "_" + dateSplit[1] + "_" + date + ".xlsx";
-            //create the copy excel file of the all the patient so user can add bar code and tray number in 
-            string ExcFile2 = ExcelFolder + @"\NMED01_" + dateSplit[2] + "_" + dateSplit[1] + "_" + date + ".xlsx";
+            string ExcFile = newFolder + @"\NMG_" + date + ".xlsx";
+            // create the copy excel file of the all the patient so user can add bar code and tray number in 
+            string ExcFile2 = ExcelFolder + @"\NMG_" + date + ".xlsx";
             File.AppendAllLines(comText, NMedList);// keep adding the the text to the combine text file 
             //the excel file is not exist create one 
             if (!System.IO.File.Exists(ExcFile))
@@ -123,11 +128,11 @@ namespace Trial_1
                 med.Workbook.Worksheets.Add("Northern Medical Group");//creat work sheet
                 var headerRow = new List<string[]>()//add header
                             {
-                                new string[] { "ACCOUNT","ID", "First Name", "MIDDLE NAME", "Last Name", "ADDRESSLINE1", "ADDRESSLINE2", "CITY", "STATE", "ZIPCODE" }
+                                new string[] { "ID","ACCOUNT", "FIRST NAME", "MIDDLE NAME", "LAST NAME", "ADDRESSLINE1", "ADDRESSLINE2", "CITY", "STATE", "ZIPCODE" }
                             };
                 string headerRange = "A1:" + Char.ConvertFromUtf32(headerRow[0].Length + 64) + "1";
                 var worksheet = med.Workbook.Worksheets["Northern Medical Group"]; // load worksheet based on name
-                worksheet.Cells[headerRange].LoadFromArrays(headerRow); //loead data to worksheet 
+                worksheet.Cells[headerRange].LoadFromArrays(headerRow); //load data to worksheet 
                 FileInfo excelFile = new FileInfo(ExcFile);
                 FileInfo excelFile2 = new FileInfo(ExcFile2);
                 med.SaveAs(excelFile); // save file
@@ -175,12 +180,11 @@ namespace Trial_1
                         }
                         var data = new List<string[]>()
                         {
-                            new string[]{info[4].Trim('"'),
-                                        guid, info[0].Trim('"'),
-                                        info[1].Trim('"'), info[2].Trim('"'),
-                                        info[9].Trim('"'), info[10].Trim('"'),
-                                        info[11].Trim('"'), info[12].Trim('"'),
-                                        info[13].Trim('"')
+                            new string[]{guid, info[4].Trim('"'),
+                                        info[0].Trim('"'), info[1].Trim('"'),
+                                        info[2].Trim('"'), info[9].Trim('"'),
+                                        info[10].Trim('"'), info[11].Trim('"'),
+                                        info[12].Trim('"'), info[13].Trim('"')
                             }
                         };
                         worksheet1.Cells[MedRow, 1].LoadFromArrays(data);
@@ -195,14 +199,13 @@ namespace Trial_1
             //File.Move(textFile, dir);
         }
 
-        private void NorthernMedicalGroupPDF(string cleanExcelFiles) 
+        private void NorthernMedicalGroupPDF(string cleanExcelFiles)
         {
-            string fileName = Path.GetFileName(cleanExcelFiles);
-            string[] getFileName = fileName.Split('.');
-            string[] fileNameSplit = getFileName[0].Split('_');
-            string Direction = fileNameSplit[1] + @"\" + fileNameSplit[2] + @"\" + fileNameSplit[3];
-            string FileName = fileNameSplit[1] + "_" + fileNameSplit[2] + "_" + fileNameSplit[3];
-            string CompareTextFile = @"C:\Invoice\Clients\Northern Medical Group\" + Direction + @"\" + "NMED01_" + FileName + ".txt";
+            DateTime todayPDF = DateTime.Today;
+            string datePDF = todayPDF.ToString("dd-MM-yyyy");
+            string[] datePDFSplit = datePDF.Split('-');
+            string Direction = datePDFSplit[2] + @"\" + datePDFSplit[1] + @"\" + datePDF;
+            string CompareTextFile = @"L:\Invoice\Clients\Northern Medical Group\" + Direction + @"\" + "NMG_" + datePDF + ".txt";
             string[] lines = System.IO.File.ReadAllLines(CompareTextFile);
             DataSet MEDDataSet = new DataSet();
             FileStream fs = File.Open(cleanExcelFiles, FileMode.Open, FileAccess.Read);
@@ -210,9 +213,9 @@ namespace Trial_1
             MEDDataSet = MEDClean.AsDataSet();
             DataTable dt = MEDDataSet.Tables[0];
             //int count2 = 0;
-            string resources = @"C:\Invoice\PDF Tools";
-            string pdfFile = @"C:\Invoice\Clients\Northern Medical Group\" + Direction + @"\" + "NMED01_" + FileName + ".pdf";
-            string coverPdfFile = @"C:\Invoice\Clients\Northern Medical Group\" + Direction + @"\";
+            string resources = @"L:\Invoice\PDF Tools";
+            string pdfFile = @"L:\Invoice\Clients\Northern Medical Group\" + Direction + @"\" + "NMG_" + datePDF + ".pdf";
+            string coverPdfFile = @"L:\Invoice\Clients\Northern Medical Group\" + Direction + @"\";
             pageList = new Dictionary<int, int>();
             createPDF = new NMGPDFGenerator(resources);
             createCoverPage = new CRSTCoverPage(resources);
@@ -227,9 +230,9 @@ namespace Trial_1
                         var j = i + 1;
                         if (j < lines.Length)
                         {
-                            if(lines[j] == "ecwPtStatement,1.0") { j = j + 2; }
+                            if (lines[j] == "ecwPtStatement,1.0") { j = j + 2; }
                             string[] info = lines[j].Split(',');
-                            if (info[4].Trim('"') == dr["Column0"].ToString())
+                            if (info[4].Trim('"') == dr["Column1"].ToString())
                             {
                                 List<string> infoPatientList = new List<string>(info);
                                 int curr = 0;
@@ -299,8 +302,19 @@ namespace Trial_1
                                 newPatient.Aging120 = infoPatientList[27].Trim(charToTrim1);
                                 newPatient.InquireyPhone = infoPatientList[28].Trim(charToTrim1);
                                 newPatient.IMBarcode = dr["Column10"].ToString();
+                                int SoPo;
+                                if (Int32.TryParse(dr["Column11"].ToString(),out SoPo))
+                                {
+                                    newPatient.SortPosition = SoPo;
+                                }
+                                int TrNum;
+                                if (Int32.TryParse(dr["Column12"].ToString(), out TrNum))
+                                {
+                                    newPatient.TrayNumber = TrNum;
+                                }
                                 patientList.Add(newPatient);
                                 var h = j + 1;
+                                //Console.WriteLine(infoPatientList[4]);
                                 if (lines.Length > h)
                                 {
                                     while (lines[h] != "ecwPtStatement") //Iterates through each line for statement until it reaches next patient
@@ -316,6 +330,10 @@ namespace Trial_1
                                                 if (qCount1 < 2)
                                                 {
                                                     int nextWord1 = curr1 + 1;
+                                                    if(nextWord1 >= infoPatientStatementList.Count)
+                                                    {
+                                                        nextWord1 = curr1;
+                                                    }
                                                     while (qCount1 < 2)
                                                     {
                                                         qCount1 = checkForOneQuote(infoPatientStatementList[nextWord1]);
@@ -354,13 +372,18 @@ namespace Trial_1
                                             patientStatementList.Add(newPatientStatement);
                                             h++;
                                         }
+                                        if(h < lines.Length)
+                                        {
+                                            if (lines[h] == "ecwPtStatement" || lines[h] == "ecwPtStatement,1.0") { break; }
+                                        }
+                                        else { break; }
                                     }
                                     newPatient.SetStatement(patientStatementList);
                                 }
                                 int patientStatementListSize = patientStatementList.Count;
                                 patientStatementList.RemoveRange(0, patientStatementListSize);
                             }
-                        }              
+                        }
                     }
                 }
             }
@@ -389,6 +412,23 @@ namespace Trial_1
                 }
             }
             return count;
+        }
+
+        private void button1_MouseClick(object sender, MouseEventArgs e)
+        {
+            Document doc = new Document(PageSize.LETTER, 0, 0, 0, 0);//611*791
+            PdfWriter wri = PdfWriter.GetInstance(doc, new FileStream(@"L:\Invoice\Clients\abcd.pdf", FileMode.Create));
+            doc.Open();
+            doc.NewPage();
+
+            PdfContentByte cb = wri.DirectContent;
+
+            cb.MoveTo(5, 701);
+            cb.LineTo(40, 701);
+
+            cb.Stroke();
+
+            doc.Close();
         }
     }
 }

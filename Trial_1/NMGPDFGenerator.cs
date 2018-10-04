@@ -80,7 +80,7 @@ namespace Trial_1
         #region Dynamic strings
 
         //Data
-        //private string dyn_CRSTCode;// = "0123456789";
+        private string dyn_CRSTCode;// = "0123456789";
         private string dyn_IMBCode;// = "TFFTADAATTATFAFDTDATFFTFDADDTTAFFATTADTDDTTDADADDTAAFFFFAAAATTFTT";
         private string dyn_MailAddr;// = "FirstName LastName\n31 South Ohioville Road\nNew Paltz, NY 12561-4012";
 
@@ -207,7 +207,7 @@ namespace Trial_1
                 mailingAddress = aPatient.MailAddressLine1 + "\n" + aPatient.MailAddressLine2 + "\n" + aPatient.MailCity + ", " + aPatient.MailState + " " + aPatient.MailZip;
             }
 
-            //dyn_CRSTCode = aPatient.TrayNumber + "-" + aPatient.SortPosition;
+            dyn_CRSTCode = aPatient.TrayNumber + "-" + aPatient.SortPosition;
             dyn_IMBCode = aPatient.IMBarcode;
             dyn_MailAddr = mailingName + "\n" + mailingAddress;
 
@@ -390,10 +390,10 @@ namespace Trial_1
              * =============================================================================
              */
             //CRST mail info
-            /*paragraph = new Paragraph();
+            paragraph = new Paragraph();
             paragraph.SetLeading(0, 2);
             paragraph.Add(new Chunk(dyn_CRSTCode, getFont(fontName.arial_6)));
-            ct.AddElement(paragraph);*/
+            ct.AddElement(paragraph);
 
             //IMB code
             paragraph = new Paragraph();

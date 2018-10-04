@@ -39,8 +39,8 @@ namespace Trial_1
         public string InquireyPhone { get; set; }
 
         public string IMBarcode { get; set; }
-        /*public int SortPosition { get; set; }
-        public int TrayNumber { get; set; }*/
+        public int SortPosition { get; set; }
+        public int TrayNumber { get; set; }
         public int PageNumber => StatementPageSapreted.Count();
 
         public string ID { get; set; }
@@ -97,8 +97,8 @@ namespace Trial_1
             MailZip = aPatient.MailZip;
 
             IMBarcode = aPatient.IMBarcode;
-            /*SortPosition = aPatient.SortPosition;
-            TrayNumber = aPatient.TrayNumber;*/
+            SortPosition = aPatient.SortPosition;
+            TrayNumber = aPatient.TrayNumber;
             AddressStatus = PatientMailingStatus.Verified;
         }
 
@@ -162,8 +162,8 @@ namespace Trial_1
             str += "NumberOfStatement-" + StatementPageSapreted.Sum(s => s.Count) + ",";
 
             str += "IMBarcode-" + IMBarcode + ",";
-            /*str += "SortPosition-" + SortPosition + ",";
-            str += "TrayNumber-" + TrayNumber + ",";*/
+            str += "SortPosition-" + SortPosition + ",";
+            str += "TrayNumber-" + TrayNumber + ",";
 
             str += "PatientID-" + ID + ",";
             str += "PatientStatus-" + Enum.GetName(typeof(PatientMailingStatus), AddressStatus);            
