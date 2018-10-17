@@ -42,7 +42,7 @@ namespace Trial_1
         {
             if (aPageList == null) throw new ArgumentNullException("Error");
 
-            aPath += "\\CRST_CoverPage.pdf";
+            //aPath += "\\CRST_CoverPage.pdf";
             DateTime currentTime = DateTime.Now;
 
             Document doc = new Document(PageSize.LETTER, 0, 0, 0, 0);//611*791

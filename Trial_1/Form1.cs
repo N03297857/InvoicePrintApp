@@ -33,17 +33,17 @@ namespace Trial_1
         public NMGPDFGenerator createPDF;
         public NMGPDFGenerator createPDF2;
         public NMGPatient newPatient;
+        public NMGPatient newPatient2;
         public CRSTCoverPage createCoverPage;
         public IDictionary<int, int> pageList;
         public IEnumerable<NMGPatient> patientData;
         public List<NMGPatientStatement> patientStatementList;
         public List<NMGPatient> patientList;
         public List<NMGPatientStatement> patientStatementList2;
-        public List<NMGPatient> patientList2;
+        //public List<NMGPatient> patientList2;
 
         public int amountOfPatients;
         public int amountOfPages;
-        public IDictionary<int, int> coverPageValues;
 
         private void RDBtn_MouseClick(object sender, MouseEventArgs e)
         {
@@ -260,18 +260,16 @@ namespace Trial_1
             MEDDataSet2 = MEDClean2.AsDataSet();
             DataTable dt = MEDDataSet.Tables[0];
             DataTable dt2 = MEDDataSet2.Tables[0];
-            //int count2 = 0;
             string resources = @"L:\Invoice\PDF Tools";
             string pdfFile = @"L:\Invoice\Clients\Northern Medical Group\" + Direction + @"\" + "NMG_" + datePDF + ".pdf";
-            string pdfFile2 = @"L:\Invoice\Clients\Northern Medical Group\" + Direction + @"\" + "NMG_" + datePDF + "_Extra.pdf";
-            string coverPdfFile = @"L:\Invoice\Clients\Northern Medical Group\" + Direction + @"\";
+            //string pdfFile2 = @"L:\Invoice\Clients\Northern Medical Group\" + Direction + @"\" + "NMG_" + datePDF + "_Extra.pdf";
+            string coverPdfFile = @"L:\Invoice\Clients\Northern Medical Group\" + Direction + @"\CRST_CoverPage.pdf";
             pageList = new Dictionary<int, int>();
             createPDF = new NMGPDFGenerator(resources);
-            createPDF2 = new NMGPDFGenerator(resources);
             createCoverPage = new CRSTCoverPage(resources);
             patientList = new List<NMGPatient>(); //Stores different Patient
             patientStatementList = new List<NMGPatientStatement>(); //Stores each line of Patient Statement
-            patientList2 = new List<NMGPatient>(); //Stores different Patient
+            //patientList2 = new List<NMGPatient>(); //Stores different Patient
             patientStatementList2 = new List<NMGPatientStatement>(); //Stores each line of Patient Statement
             foreach (DataRow dr in dt.Rows)
             {
@@ -355,7 +353,7 @@ namespace Trial_1
                                 newPatient.InquireyPhone = infoPatientList[28].Trim(charToTrim1);
                                 newPatient.IMBarcode = dr["Column11"].ToString();
                                 int SoPo;
-                                if (Int32.TryParse(dr["Column12"].ToString(),out SoPo))
+                                if (Int32.TryParse(dr["Column12"].ToString(), out SoPo))
                                 {
                                     newPatient.SortPosition = SoPo;
                                 }
@@ -366,7 +364,6 @@ namespace Trial_1
                                 }
                                 patientList.Add(newPatient);
                                 var h = j + 1;
-                                //Console.WriteLine(infoPatientList[4]);
                                 if (lines.Length > h)
                                 {
                                     while (lines[h] != "ecwPtStatement") //Iterates through each line for statement until it reaches next patient
@@ -439,7 +436,6 @@ namespace Trial_1
                     }
                 }
             }
-            createPDF.GeneratorPDF(patientList, pdfFile);
             foreach (DataRow dr2 in dt2.Rows)
             {
                 for (int i = 1; i < lines.Length; i++)
@@ -520,9 +516,8 @@ namespace Trial_1
                                 newPatient.Aging91_120 = infoPatientList[26].Trim(charToTrim1);
                                 newPatient.Aging120 = infoPatientList[27].Trim(charToTrim1);
                                 newPatient.InquireyPhone = infoPatientList[28].Trim(charToTrim1);
-                                patientList2.Add(newPatient);
+                                patientList.Add(newPatient);
                                 var h = j + 1;
-                                //Console.WriteLine(infoPatientList[4]);
                                 if (lines.Length > h)
                                 {
                                     while (lines[h] != "ecwPtStatement") //Iterates through each line for statement until it reaches next patient
@@ -595,8 +590,48 @@ namespace Trial_1
                     }
                 }
             }
-            //Creates PDF for all patients into one file
-            createPDF2.GeneratorPDF(patientList2, pdfFile2);
+            var countPages = 0;
+            for (int i = 1; i > 4; i++)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    int Column10;
+                    if (Int32.TryParse(dr["Column10"].ToString(), out Column10))
+                    {
+                        if(Column10 == i)
+                        {
+                            countPages++;
+                        }
+                    }
+                }
+                if (countPages != 0)
+                {
+                    pageList.Add(i, countPages);
+                }
+                countPages = 0;
+            }
+            var countPages2 = 0;
+            for (int j = 4; j > 10; j++)
+            {
+                foreach (DataRow dr2 in dt2.Rows)
+                {
+                    int Column10;
+                    if (Int32.TryParse(dr2["Column10"].ToString(), out Column10))
+                    {
+                        if (Column10 == j)
+                        {
+                            countPages2++;
+                        }
+                    }
+                }
+                if(countPages2 != 0)
+                {
+                    pageList.Add(j, countPages2);
+                }
+                countPages2 = 0;
+            }
+            //Creates PDF for all patients into second file
+            createPDF.GeneratorPDF(patientList, pdfFile);
             //Finds total amount of pages and patients for PDF file
             PdfReader pdfRead = new PdfReader(pdfFile);
             amountOfPages = pdfRead.NumberOfPages;
@@ -604,10 +639,9 @@ namespace Trial_1
             //Splits file to load into CRSTCoverPage
             string backSlash = "\"";
             string[] fileLines = Regex.Split(coverPdfFile, backSlash);
-            //Grabs total pages for individual patients for CRSTCoverPage 
-            pageList.Add(amountOfPages, amountOfPatients);
             //Prints cover page for Northern Medical Group
             createCoverPage.PrintCoverPage(pageList, amountOfPatients, amountOfPages, fileLines, coverPdfFile);
+
         }
         private int checkForOneQuote(string checkString)
         {
