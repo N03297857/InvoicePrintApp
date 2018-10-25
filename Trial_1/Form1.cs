@@ -169,7 +169,7 @@ namespace Trial_1
                     while(lines[c] != "ecwPtStatement" || lines[c] != "ecwPtStatement,1.0")
                     {
                         sta++;
-                        if(sta > 31)
+                        if(sta > 30)
                         {
                             page++;
                             sta = 1;
@@ -271,8 +271,44 @@ namespace Trial_1
             patientStatementList = new List<NMGPatientStatement>(); //Stores each line of Patient Statement
             //patientList2 = new List<NMGPatient>(); //Stores different Patient
             patientStatementList2 = new List<NMGPatientStatement>(); //Stores each line of Patient Statement
+
+            var page1 = 1;
+            var page2 = 2;
+            var page3 = 3;
+
+            var countPages1 = 0;
+            var countPages2 = 0;
+            var countPages3 = 0;
+
             foreach (DataRow dr in dt.Rows)
             {
+                int Column10;
+                if (Int32.TryParse(dr["Column10"].ToString(), out Column10))
+                {
+                    if (Column10 == page1)
+                    {
+                        countPages1++;
+                    }
+                }
+
+                if (Int32.TryParse(dr["Column10"].ToString(), out Column10))
+                {
+                    if (Column10 == page2)
+                    {
+                        countPages2++;
+                    }
+                }
+
+                if (Int32.TryParse(dr["Column10"].ToString(), out Column10))
+                {
+                    if (Column10 == page3)
+                    {
+                        countPages3++;
+                        Console.WriteLine(countPages3);
+                        Console.WriteLine(dr["Column1"].ToString());
+                    }
+                }
+
                 for (int i = 1; i < lines.Length; i++)
                 {// read in each line
                     if (lines[i] == "ecwPtStatement") // indicator for client format  
@@ -436,6 +472,19 @@ namespace Trial_1
                     }
                 }
             }
+            if (countPages1 != 0)
+            {
+                pageList.Add(page1, countPages1);
+            }
+            if (countPages2 != 0)
+            {
+                pageList.Add(page2, countPages2 * 2);
+            }
+            if (countPages3 != 0)
+            {
+                pageList.Add(page3, countPages3 * 3);
+            }
+            List<int> listOfPageNum = new List<int>();
             foreach (DataRow dr2 in dt2.Rows)
             {
                 for (int i = 1; i < lines.Length; i++)
@@ -517,6 +566,11 @@ namespace Trial_1
                                 newPatient.Aging120 = infoPatientList[27].Trim(charToTrim1);
                                 newPatient.InquireyPhone = infoPatientList[28].Trim(charToTrim1);
                                 patientList.Add(newPatient);
+                                int LoPN;
+                                if(Int32.TryParse(dr2["Column10"].ToString(),out LoPN))
+                                {
+                                    listOfPageNum.Add(LoPN);
+                                }
                                 var h = j + 1;
                                 if (lines.Length > h)
                                 {
@@ -590,47 +644,27 @@ namespace Trial_1
                     }
                 }
             }
-            var countPages = 0;
-            for (int i = 1; i > 4; i++)
+            int currentPage = 0;
+            int countCurrentPage = 0;
+            listOfPageNum.Sort();
+            for (int h = 0; h < listOfPageNum.Count; h++)
             {
-                foreach (DataRow dr in dt.Rows)
+                if(currentPage == listOfPageNum.ElementAt(h))
                 {
-                    int Column10;
-                    if (Int32.TryParse(dr["Column10"].ToString(), out Column10))
+                    countCurrentPage++;
+                }
+                if (currentPage != listOfPageNum.ElementAt(h))
+                {
+                    if (countCurrentPage != 0)
                     {
-                        if(Column10 == i)
-                        {
-                            countPages++;
-                        }
+                        pageList.Add(currentPage, countCurrentPage * currentPage);
                     }
+                    currentPage = listOfPageNum.ElementAt(h);
+                    countCurrentPage = 1;
                 }
-                if (countPages != 0)
-                {
-                    pageList.Add(i, countPages);
-                }
-                countPages = 0;
             }
-            var countPages2 = 0;
-            for (int j = 4; j > 10; j++)
-            {
-                foreach (DataRow dr2 in dt2.Rows)
-                {
-                    int Column10;
-                    if (Int32.TryParse(dr2["Column10"].ToString(), out Column10))
-                    {
-                        if (Column10 == j)
-                        {
-                            countPages2++;
-                        }
-                    }
-                }
-                if(countPages2 != 0)
-                {
-                    pageList.Add(j, countPages2);
-                }
-                countPages2 = 0;
-            }
-            //Creates PDF for all patients into second file
+            pageList.Add(currentPage, countCurrentPage * currentPage);
+            //Creates PDF for all patients into a single file
             createPDF.GeneratorPDF(patientList, pdfFile);
             //Finds total amount of pages and patients for PDF file
             PdfReader pdfRead = new PdfReader(pdfFile);
@@ -665,10 +699,11 @@ namespace Trial_1
 
             PdfContentByte cb = wri.DirectContent;
 
-            cb.MoveTo(0, 698);
-            cb.LineTo(16.3, 698);
+            //cb.SetFontAndSize();
 
-            cb.Stroke();
+            cb.BeginText();
+            string text = "_________";
+
 
             cb.MoveTo(0, 688);
             cb.LineTo(16.3, 688);
