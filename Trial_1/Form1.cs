@@ -40,7 +40,6 @@ namespace Trial_1
         public List<NMGPatientStatement> patientStatementList;
         public List<NMGPatient> patientList;
         public List<NMGPatientStatement> patientStatementList2;
-        //public List<NMGPatient> patientList2;
 
         public int amountOfPatients;
         public int amountOfPages;
@@ -105,10 +104,6 @@ namespace Trial_1
                         break;
                 }
             }
-        }
-        private void progressBar1_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void NorthernMedicalGroupTXT(string textFile)
@@ -262,14 +257,13 @@ namespace Trial_1
             DataTable dt2 = MEDDataSet2.Tables[0];
             string resources = @"L:\Invoice\PDF Tools";
             string pdfFile = @"L:\Invoice\Clients\Northern Medical Group\" + Direction + @"\" + "NMG_" + datePDF + ".pdf";
-            //string pdfFile2 = @"L:\Invoice\Clients\Northern Medical Group\" + Direction + @"\" + "NMG_" + datePDF + "_Extra.pdf";
             string coverPdfFile = @"L:\Invoice\Clients\Northern Medical Group\" + Direction + @"\CRST_CoverPage.pdf";
+            string cleanFolder = @"L;\Invoice\Client\Northern Medical Group\" + Direction + @"\Clean Folder";
             pageList = new Dictionary<int, int>();
             createPDF = new NMGPDFGenerator(resources);
             createCoverPage = new CRSTCoverPage(resources);
             patientList = new List<NMGPatient>(); //Stores different Patient
             patientStatementList = new List<NMGPatientStatement>(); //Stores each line of Patient Statement
-            //patientList2 = new List<NMGPatient>(); //Stores different Patient
             patientStatementList2 = new List<NMGPatientStatement>(); //Stores each line of Patient Statement
 
             var page1 = 1;
@@ -282,6 +276,7 @@ namespace Trial_1
 
             foreach (DataRow dr in dt.Rows)
             {
+                //Counting pages for page 1-3 for cover page
                 int Column10;
                 if (Int32.TryParse(dr["Column10"].ToString(), out Column10))
                 {
@@ -308,7 +303,7 @@ namespace Trial_1
                         Console.WriteLine(dr["Column1"].ToString());
                     }
                 }
-
+                //Storing patient information inside patient
                 for (int i = 1; i < lines.Length; i++)
                 {// read in each line
                     if (lines[i] == "ecwPtStatement") // indicator for client format  
@@ -472,6 +467,7 @@ namespace Trial_1
                     }
                 }
             }
+            //Sending information for page 1-3 to cover page
             if (countPages1 != 0)
             {
                 pageList.Add(page1, countPages1);
@@ -485,6 +481,7 @@ namespace Trial_1
                 pageList.Add(page3, countPages3 * 3);
             }
             List<int> listOfPageNum = new List<int>();
+            //Loading patient statement for patient
             foreach (DataRow dr2 in dt2.Rows)
             {
                 for (int i = 1; i < lines.Length; i++)
@@ -644,6 +641,8 @@ namespace Trial_1
                     }
                 }
             }
+            //Totaling and sending page information for 4+
+            //To pageList for cover page
             int currentPage = 0;
             int countCurrentPage = 0;
             listOfPageNum.Sort();
@@ -676,6 +675,11 @@ namespace Trial_1
             //Prints cover page for Northern Medical Group
             createCoverPage.PrintCoverPage(pageList, amountOfPatients, amountOfPages, fileLines, coverPdfFile);
 
+            //Currently still testing
+            /*Directory.CreateDirectory(cleanFolder);
+            string name = Path.GetFileName(cleanExcelFiles);
+            string dir = cleanFolder + @"\" + name;
+            File.Move(cleanExcelFiles, dir);*/
         }
         private int checkForOneQuote(string checkString)
         {
