@@ -100,17 +100,19 @@ namespace Trial_1
         private string dyn_FooterLeft;// = fbiCall + "(845) 592-4915" + "              " + patient + "FirstName LastName";
 
         #endregion
-
-        public NMGPDFGenerator(string aResourcePath)
+        public Form1 x;
+        public NMGPDFGenerator(string aResourcePath, Form1 form)
         {
             pageFontPath = aResourcePath + "\\Resources\\Fonts\\3OF9_NEW.TTF";
             imbFontPath = aResourcePath + "\\Resources\\Fonts\\USPSIMBStandard.ttf";
             logoPath = aResourcePath + "\\Resources\\Images\\NMGLogo.png";
             cardTypeImgePath = aResourcePath + "\\Resources\\Images\\card-select.png";
+            x = form;
         }
 
         public void GeneratorPDF(IEnumerable<NMGPatient> aPatientList, string aOutPutPath)
         {
+            int count = 0;
             if (aPatientList == null) throw new ArgumentNullException(errorCode);
 
             DateTime currentTime = DateTime.Now;
@@ -127,6 +129,8 @@ namespace Trial_1
 
             foreach (var p in aPatientList)
             {
+                count++;
+                x.UpdateMember(count.ToString());
                 setCurrentPatientInfo(p);
 
                 for (int i = 0; i < p.StatementPageSapreted.Count(); i++)
@@ -181,7 +185,7 @@ namespace Trial_1
                     addFooter(wri, rect, i+1, p.StatementPageSapreted.Count());
                 }
             }
-
+            x.UpdateMember("Done");
             doc.Close();
         }
 

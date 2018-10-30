@@ -20,10 +20,14 @@ namespace Trial_1
         {
             InitializeComponent();
         }
+
+        protected string FolderForToday;
         protected int page; protected int sta;
         protected List<DataSet> GenDS = new List<DataSet>(); // this variable holding the dataset for all excel files
         protected DataSet result = new DataSet(); // when you convert from excel file to dataset
 
+        protected string MedExcFile;
+        protected int Total;
         protected string addr1;
         protected int[] NMEDPreClean;
         protected int MedRow = 2; //keep tracking rows for Northern Medical Group
@@ -123,7 +127,7 @@ namespace Trial_1
             //create the excel file of all the patients without the code 
             string ExcFile = newFolder + @"\NMG_" + date + ".xlsx";
             // create the copy excel file of the all the patient so user can add bar code and tray number in 
-            string ExcFile2 = ExcelFolder + @"\NMG_" + date + ".xlsx";
+            MedExcFile = ExcelFolder + @"\NMG_" + date + ".xlsx";
             // create the excel file for all patients who have more than 3 pages 
             string ExcFile3 = newFolder + @"\NMG_" + date + "_Extra.xlsx";
             File.AppendAllLines(comText, NMedList);// keep adding the the text to the combine text file 
@@ -140,14 +144,14 @@ namespace Trial_1
                 var worksheet = med.Workbook.Worksheets["Northern Medical Group"]; // load worksheet based on name
                 worksheet.Cells[headerRange].LoadFromArrays(headerRow); //load data to worksheet 
                 FileInfo excelFile = new FileInfo(ExcFile);
-                FileInfo excelFile2 = new FileInfo(ExcFile2);
+                FileInfo excelFile2 = new FileInfo(MedExcFile);
                 FileInfo excelFile3 = new FileInfo(ExcFile3);
                 med.SaveAs(excelFile); // save file
                 med.SaveAs(excelFile2);
                 med.SaveAs(excelFile3);
             }
             FileInfo loadfile = new FileInfo(ExcFile);// load excel file
-            FileInfo copyFile = new FileInfo(ExcFile2); // load copy file 
+            FileInfo copyFile = new FileInfo(MedExcFile); // load copy file 
             FileInfo ExtraFile = new FileInfo(ExcFile3); // load copy file 
             ExcelPackage med1 = new ExcelPackage(loadfile);
             ExcelPackage med2 = new ExcelPackage(ExtraFile);
@@ -260,7 +264,7 @@ namespace Trial_1
             string coverPdfFile = @"L:\Invoice\Clients\Northern Medical Group\" + Direction + @"\CRST_CoverPage.pdf";
             string cleanFolder = @"L;\Invoice\Client\Northern Medical Group\" + Direction + @"\Clean Folder";
             pageList = new Dictionary<int, int>();
-            createPDF = new NMGPDFGenerator(resources);
+            createPDF = new NMGPDFGenerator(resources, this);
             createCoverPage = new CRSTCoverPage(resources);
             patientList = new List<NMGPatient>(); //Stores different Patient
             patientStatementList = new List<NMGPatientStatement>(); //Stores each line of Patient Statement
@@ -662,7 +666,10 @@ namespace Trial_1
                     countCurrentPage = 1;
                 }
             }
-            pageList.Add(currentPage, countCurrentPage * currentPage);
+            if (currentPage != 0 && countCurrentPage != 0)
+            {
+                pageList.Add(currentPage, countCurrentPage * currentPage);
+            }
             //Creates PDF for all patients into a single file
             createPDF.GeneratorPDF(patientList, pdfFile);
             //Finds total amount of pages and patients for PDF file
@@ -674,13 +681,30 @@ namespace Trial_1
             string[] fileLines = Regex.Split(coverPdfFile, backSlash);
             //Prints cover page for Northern Medical Group
             createCoverPage.PrintCoverPage(pageList, amountOfPatients, amountOfPages, fileLines, coverPdfFile);
-
-            //Currently still testing
-            /*Directory.CreateDirectory(cleanFolder);
-            string name = Path.GetFileName(cleanExcelFiles);
-            string dir = cleanFolder + @"\" + name;
-            File.Move(cleanExcelFiles, dir);*/
+            string CleanFolder = FolderForToday + @"\Clean\";
+            Directory.CreateDirectory(CleanFolder);
+            string cleanDir = CleanFolder + Path.GetFileName(cleanExcelFiles);
+            fs.Close();
+            File.Move(cleanExcelFiles, cleanDir);
         }
+
+        public void UpdateMember(string percentage)
+        {
+            if (percentage == "Done")
+            {
+                label3.Text = "Done";
+            }
+            else
+            {
+                label3.Text = percentage + "/" + Total;
+            }
+            label3.Invalidate();
+            label3.Update();
+            label3.Refresh();
+            Application.DoEvents();
+            Console.WriteLine(label3.Text);
+        }
+
         private int checkForOneQuote(string checkString)
         {
             int count = 0;
