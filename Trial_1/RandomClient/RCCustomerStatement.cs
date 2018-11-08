@@ -1,24 +1,23 @@
-﻿using iTextSharp.text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using iTextSharp.text;
 using iTextSharp.text.pdf;
-using System;
-using System.IO;
 
-namespace Trial_1
+namespace Trial_1.RandomClient
 {
-    public class NMGPatientStatement
+    class RCCustomerStatement
     {
-        public string AccountNo { get; set; }
-        public string ClaimNo { get; set; }
-        public DateTime VisitDate { get; set; }
-        public DateTime ActivityDate { get; set; }
-        public string Description { get; private set; }
-        public string Charges { get; set; }
-        public string Payments { get; set; }
-        public string Balance { get; set; }
-        
+        public string AccountNumber { get; set; }
+        public string Description { get; set; }
+        public int Price { get; set; }
+        public int Tax { get; set; }
+
         public int DescriptionLine { get; private set; }
 
-        private int getLine(string aString, Font aFont, float aSize, float aWidth)
+        private int GetLine(string aString, Font aFont, float aSize, float aWidth)
         {
             if (aFont == null || aSize <= 0) throw new ArgumentNullException("Font and size cannot be null or less/equal then 0.");
 
@@ -94,25 +93,20 @@ namespace Trial_1
 
             return line;
         }
-
-        public void SetDescription(string aDesription)
+        public void setDescription(string aDescription)
         {
-            DescriptionLine = getLine(aDesription, FontFactory.GetFont("Arial", 9), 9f, 255.555542f); //Get and set the description line.
-            Description = aDesription; //Set description.
+            DescriptionLine = GetLine(aDescription, FontFactory.GetFont("Arial", 9), 9f, 255.555542f);
+            Description = aDescription;
         }
 
         public override string ToString()
         {
             string str = "";
 
-            str += "AccountNo-" + AccountNo + ",";
-            str += "ClaimNo-" + ClaimNo + ",";
-            str += "VisitDate-" + VisitDate + ",";
-            str += "ActivityDate-" + ActivityDate + ",";
+            str += "AccountNo-" + AccountNumber + ",";
             str += "Description-" + Description + ",";
-            str += "Charges-" + Charges + ",";
-            str += "Payments-" + Payments + ",";
-            str += "Balance-" + Balance + ",";
+            str += "Price-" + Price + ",";
+            str += "Tax-" + Tax + ",";
 
             return str;
         }

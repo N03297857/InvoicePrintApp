@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Trial_1
+namespace Trial_1.Northern_Medical_Group
 {
     public class NMGPatient : IEquatable<NMGPatient>//, IComparable<NMGPatient>
     {

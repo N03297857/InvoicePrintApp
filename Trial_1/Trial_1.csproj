@@ -69,11 +69,15 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="NMGPatient.cs" />
-    <Compile Include="NMGPatientStatement.cs" />
-    <Compile Include="NMGPDFGenerator.cs" />
+    <Compile Include="Northern Medical Group\NMGPDF.cs" />
+    <Compile Include="Northern Medical Group\NMGPatient.cs" />
+    <Compile Include="Northern Medical Group\NMGPatientStatement.cs" />
+    <Compile Include="Northern Medical Group\NMGPDFGenerator.cs" />
+    <Compile Include="Northern Medical Group\NMGExcel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RandomClient\RCCustomer.cs" />
+    <Compile Include="RandomClient\RCCustomerStatement.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

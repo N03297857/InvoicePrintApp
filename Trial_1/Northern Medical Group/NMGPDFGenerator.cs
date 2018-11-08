@@ -5,7 +5,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System.IO;
 
-namespace Trial_1
+namespace Trial_1.Northern_Medical_Group
 {
     public class NMGPDFGenerator
     {
@@ -100,8 +100,8 @@ namespace Trial_1
         private string dyn_FooterLeft;// = fbiCall + "(845) 592-4915" + "              " + patient + "FirstName LastName";
 
         #endregion
-        public Form1 x;
-        public NMGPDFGenerator(string aResourcePath, Form1 form)
+        public NMGPDF x;
+        public NMGPDFGenerator(string aResourcePath, NMGPDF form)
         {
             pageFontPath = aResourcePath + "\\Resources\\Fonts\\3OF9_NEW.TTF";
             imbFontPath = aResourcePath + "\\Resources\\Fonts\\USPSIMBStandard.ttf";
